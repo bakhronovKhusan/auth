@@ -17,19 +17,28 @@ class AuthService
     public $token;
 
     public $is_app = false;
+    private Client $client;
+
+    public function __construct()
+    {
+        $this->client = new Client([
+            'scheme' => 'tcp',
+            'host' => env('REDIS_HOST','192.168.0.2'), // Replace with your Redis server's IP address or hostname
+            'port' => env('REDIS_PORT',6379), // Replace with your Redis server's port if it's not the default 6379
+            'password' => env('REDIS_PASSWORD','Gf4ezYLeNB32zvtTpkFQD/co0D8ZnrJKoqTbMBiyyQfbpEMyq8sZSy69MquluZIh$')
+        ]);
+    }
 
     public function login(AuthRequest $request, RateLimiter $rate_limiter)
     {
         if($this->checkTooManyFailedAttempts($rate_limiter)){
-            return BaseResponse::error(null,403,'Your phone number is banned. Too many login attempts. Try again later.');
+            BaseResponse::error(null,403,'Your phone number is banned. Too many login attempts. Try again later.');
         }
         if(!($user = User::where(['phone'=>$request->phone])->first()) || !( $this->token = auth('api')->setTTL(15)->attempt(request(['phone', 'password']))))
         {
-
             $rate_limiter->hit($this->throttleKey(), $seconds = 1800);
             return BaseResponse::error(null,401,'Unauthorized');
         }
-
         $rate_limiter->clear($this->throttleKey());
         $result = $this->getToken($request, $user);
         return BaseResponse::success((new UserMiniResource($result)));
@@ -83,7 +92,7 @@ class AuthService
 
     public function registerToRedis(){
         $expirationInSeconds = $this->is_app ? config('register.redis_each_expire') : config('register.redis_each_expire_app');
-        (new Client())->set($this->token , json_encode([
+        $this->client->set($this->token , json_encode([
             'roles'       => auth('api')->user()->getRoleNames()->toArray() ?? [],
             'permissions' => auth('api')->user()->getAllPermissions() ?? [],
         ]),'EX', $expirationInSeconds);

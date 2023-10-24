@@ -18,8 +18,10 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request, RateLimiter $rate_limiter)
     {
-          $result = $this->service->login($request, $rate_limiter);
-          $this->service->registerToRedis();
+        $result = $this->service->login($request, $rate_limiter);
+        if($result->getStatusCode()==200){
+            $this->service->registerToRedis();
+        }
         return $result;
     }
     public function refresh()
