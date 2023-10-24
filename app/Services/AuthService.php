@@ -84,7 +84,7 @@ class AuthService
     public function registerToRedis(){
         $expirationInSeconds = $this->is_app ? config('register.redis_each_expire') : config('register.redis_each_expire_app');
         (new Client())->set($this->token , json_encode([
-            'roles'       => auth('api')->user()->getRoleNames() ?? [],
+            'roles'       => auth('api')->user()->getRoleNames()->toArray() ?? [],
             'permissions' => auth('api')->user()->getAllPermissions() ?? [],
         ]),'EX', $expirationInSeconds);
     }
