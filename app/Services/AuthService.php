@@ -23,8 +23,8 @@ class AuthService
     {
         $this->client = new Client([
             'scheme' => 'tcp',
-            'host' => env('REDIS_HOST','192.168.0.2'), // Replace with your Redis server's IP address or hostname
-            'port' => env('REDIS_PORT',6379), // Replace with your Redis server's port if it's not the default 6379
+            'host' => env('REDIS_HOST','192.168.0.2'),
+            'port' => env('REDIS_PORT',6379),
             'password' => env('REDIS_PASSWORD','Gf4ezYLeNB32zvtTpkFQD/co0D8ZnrJKoqTbMBiyyQfbpEMyq8sZSy69MquluZIh$')
         ]);
     }
