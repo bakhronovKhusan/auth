@@ -24,9 +24,7 @@ class BaseResponse extends JsonResponse
         $result['status'] = true;
         $result['code'] = $code;
         $result['data'] = $data;
-        return new JsonResponse([
-            $result
-        ], $code);
+        return new JsonResponse($result, $code);
     }
 
 }
