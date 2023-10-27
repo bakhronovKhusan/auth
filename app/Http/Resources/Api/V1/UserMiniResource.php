@@ -13,7 +13,7 @@ class UserMiniResource extends JsonResource
             (auth('api')->user()->hasRole('Online Hunter') ? 'Online Hunter' : false ));
         return [
             'token'       => $this->token ?? null,
-            'branch_id'   => auth('api')->user()->staff->branch_id,
+            'branch_id'   => 10 ?? auth('api')->user()->staff->branch_id,
             'roles'       => $roles ? $roles : '',
             'permissions' => auth('api')->user()->getAllPermissions() ?? [],
         ];
