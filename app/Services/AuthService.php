@@ -34,8 +34,7 @@ class AuthService
         if($this->checkTooManyFailedAttempts($rate_limiter)){
             BaseResponse::error(null,403,'Your phone number is banned. Too many login attempts. Try again later.');
         }
-        if(!($user = User::where(['phone'=>$request->phone])->first()) || !( $this->token = auth('api')->setTTL(15)->attempt(request(['phone', 'password']))))
-        {
+        if(!($user = User::where(['phone'=>$request->phone])->first()) || !( $this->token = auth('api')->setTTL(15)->attempt(request(['phone', 'password'])))) {
             $rate_limiter->hit($this->throttleKey(), $seconds = 1800);
             return BaseResponse::error(null,401,'Unauthorized');
         }
