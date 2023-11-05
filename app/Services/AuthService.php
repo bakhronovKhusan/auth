@@ -94,6 +94,9 @@ class AuthService
         $this->client->set($this->token , json_encode([
             'roles'       => auth('api')->user()->getRoleNames()->toArray() ?? [],
             'permissions' => auth('api')->user()->getAllPermissions() ?? [],
+            'branch_id'   => 10 ?? auth('api')->user()->staff->branch_id,
+            'user_id'     =>  auth('api')->user()->id,
+            'token'       => $this->token ?? null,
         ]),'EX', $expirationInSeconds);
     }
 
