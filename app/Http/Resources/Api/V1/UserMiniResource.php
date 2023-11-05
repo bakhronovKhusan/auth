@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Api\V1;
 
-use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserMiniResource extends JsonResource
@@ -14,6 +13,7 @@ class UserMiniResource extends JsonResource
         return [
             'token'       => $this->token ?? null,
             'branch_id'   => 10 ?? auth('api')->user()->staff->branch_id,
+            'user_id'     =>  auth('api')->user()->id,
             'roles'       => $roles ? $roles : '',
             'permissions' => auth('api')->user()->getAllPermissions() ?? [],
         ];

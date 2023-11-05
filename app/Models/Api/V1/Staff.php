@@ -1,7 +1,7 @@
 <?php
 namespace App\Models\Api\V1;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
 

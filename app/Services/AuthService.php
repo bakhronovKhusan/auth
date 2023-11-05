@@ -8,7 +8,7 @@ use App\Http\Resources\Api\V1\UserMiniResource;
 use App\Http\Response\BaseResponse;
 use App\Models\Api\V1\AppPoint;
 use App\Models\Api\V1\GroupStudent;
-use App\User;
+use App\Models\User;
 use Illuminate\Cache\RateLimiter;
 use Predis\Client;
 

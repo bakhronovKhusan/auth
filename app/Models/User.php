@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Models\Api\V1\Staff;
 use App\Models\Api\V1\Student;
